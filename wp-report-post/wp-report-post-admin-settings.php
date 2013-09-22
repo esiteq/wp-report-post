@@ -81,6 +81,9 @@ $types = get_option("wp_report_post_types", 0);
                         </fieldset>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" colspan="2"><p>The following settings are valid only for Automatic mode:</p></th>
+                </tr>
                 <!-- Report link text -->
                 <tr valign="top">
                     <th scope="row"><label for="linktext">Report link text</label></th>
@@ -89,12 +92,12 @@ $types = get_option("wp_report_post_types", 0);
                 <!-- Display icon -->
                 <tr valign="top">
                     <th scope="row">Show Icon</th>
-                        <td>
-                            <fieldset>
-                                <legend class="screen-reader-text"><span>Show Icon</span></legend>
-                                <label for="icon"><input name="icon" type="checkbox" id="icon" value="1"<?php if ($icon==1) echo ' checked="checked"'; ?> /> Show icon prior to the link</label>
-                            </fieldset>
-                        </td>
+                    <td>
+                        <fieldset>
+                            <legend class="screen-reader-text"><span>Show Icon</span></legend>
+                            <label for="icon"><input name="icon" type="checkbox" id="icon" value="1"<?php if ($icon==1) echo ' checked="checked"'; ?> /> Show icon prior to the link</label>
+                        </fieldset>
+                    </td>
                 </tr>
                 <!-- Customize Look & Feel -->
                 <tr valign="top">
@@ -102,8 +105,11 @@ $types = get_option("wp_report_post_types", 0);
                     <td>
                         <a href="<?php echo $edit_url; ?>?file=wp-report-post%2Fwp-report-post-form-template.php&plugin=wp-report-post%2Fwp-report-post.php" class="button" target="_blank">Edit Form template</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $edit_url; ?>?file=wp-report-post%2Fwp-report-post.css&plugin=wp-report-post%2Fwp-report-post-form-template.php" class="button" target="_blank">Edit Stylesheet</a></td>
                 </tr>
+                <tr>
+                    <th scope="row">&nbsp;</th>
+                    <td><p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes" /></p></td>
+                </tr>
             </tbody>
         </table>
-        <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes"></p>
     </form>
 </div>

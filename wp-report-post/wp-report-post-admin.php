@@ -14,11 +14,13 @@ if (!defined("ABSPATH"))
     die("Access denied");
 }
 define("WP_POSTS_PER_PAGE", 30);
-$this_url = get_admin_url(). "admin.php?page=". $_GET['page'];
-$date_format = get_option("date_format");
-$time_format = get_option("time_format");
-$p = isset($_GET['p']) ? intval($_GET['p']) : 1;
-$orderby = "orderby={$_GET[orderby]}&order={$_GET[order]}";
+$this_url = get_admin_url(). "admin.php?page=". $_GET['page']; $date_format = get_option("date_format"); $time_format = get_option("time_format");
+$p = isset($_GET['p']) ? intval($_GET['p']) : 1; $orderby = "orderby={$_GET[orderby]}&order={$_GET[order]}";
+
+if ($_GET['action']=="delete")
+{
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}reported_posts WHERE `id`=%d", $_GET['report']));
+}
 ?>
 <style type="text/css">
 .status-edited {
@@ -28,6 +30,7 @@ $orderby = "orderby={$_GET[orderby]}&order={$_GET[order]}";
     background-color:#fcf8e3;
 }
 .status-new {
+    background-color:#fcfcfc;
 }
 .status-deleted {
     background-color:#f2dede;
@@ -77,7 +80,7 @@ foreach ($posts as $post)
     $the_id = $post->ID;
     $the_title = $post->post_title;
 ?>
-        <tr id="rep-<?php echo $post->id; ?>" class="post-<?php echo $the_id; ?> type-post status-publish format-standard hentry category-uncategorized alternate iedit author-self status-<?php echo $post->status; ?>" valign="top">
+        <tr id="rep-<?php echo $post->id; ?>" class="post-<?php echo $the_id; ?> type-post format-standard hentry category-uncategorized alternate iedit author-self status-<?php echo $post->status; ?>" valign="top">
             <th scope="row" class="check-column">
                 <label class="screen-reader-text" for="cb-select-<?php echo $the_id; ?>"><?php echo $the_title; ?></label>
 				<input id="cb-select-<?php echo $the_id; ?>" type="checkbox" name="post[]" value="<?php echo $the_id; ?>" />
@@ -85,7 +88,7 @@ foreach ($posts as $post)
             </th>
 			<td class="post-title page-title column-title"><strong><a class="row-title" target="_blank" href="<?php echo $post->guid; ?>" title="View Post"><?php echo $post->post_title; ?></a></strong>
             <div class="row-actions">
-                <a class="the-post-link" status="edited" href="<?php echo get_admin_url(); ?>post.php?post=<?php echo $the_id; ?>&action=edit" report-id="<?php echo $post->id; ?>" target="_blank">Edit Post</a> | <a class="the-post-link" status="unpublished" report-id="<?php echo $post->id; ?>" href="<?php echo "{$this_url}&{$orderby}&p={$p}&post={$post->ID}&action=unpublish"; ?>">Unpublish Post</a> | <a href="<?php echo "{$this_url}&{$orderby}&p={$p}&report={$post->id}&action=delete"; ?>">Delete Report</a>
+                <a class="the-post-link" status="edited" href="<?php echo get_admin_url(); ?>post.php?post=<?php echo $the_id; ?>&action=edit" report-id="<?php echo $post->id; ?>" target="_blank">Edit Post</a> | <a class="the-post-link" status="unpublished" report-id="<?php echo $post->id; ?>" href="<?php echo "{$this_url}&{$orderby}&p={$p}&post={$post->ID}&action=unpublish"; ?>">Unpublish Post</a> | <a href="<?php echo "{$this_url}&{$orderby}&p={$p}&report={$post->id}&action=delete"; ?>">Delete Report</a> | <a href="#" class="the-post-link" status="new" report-id="<?php echo $post->id; ?>">Change Status to New</a>
             </div>
             </td>
             <td class="author column-author"><a href="<?php echo get_admin_url(); ?>user-edit.php?user_id=<?php echo $post->user_id; ?>" target="_blank"><?php echo $post->user_name; ?></a></td>
@@ -96,22 +99,8 @@ foreach ($posts as $post)
         </tr>
 <?php
 }
-if ($p>1)
-{
-    $prev = $p-1;
-}
-else
-{
-    $prev = 1;
-}
-if ($p<$pages)
-{
-    $next = $p+1;
-}
-else
-{
-    $next = $pages;
-}
+if ($p>1) { $prev = $p-1; } else { $prev = 1; }
+if ($p<$pages) { $next = $p+1; } else { $next = $pages; }
 ?>
     </tbody>
 </table>
@@ -147,7 +136,24 @@ jQuery(document).ready(function($)
     {
         var status = $(this).attr("status");
         var report_id = $(this).attr("report-id");
-        alert(status+', '+report_id)        
+        $("#rep-"+report_id).removeClass("status-new");
+        $("#rep-"+report_id).removeClass("status-unpublished");
+        $("#rep-"+report_id).removeClass("status-edited");
+        $("#rep-"+report_id).addClass("status-"+status);
+        $.ajax(
+        {
+            url: "<?php echo plugins_url("wp-report-post-admin-ajax.php", __FILE__); ?>",
+            type: "GET",
+            dataType: "json",
+            data: { status: status, report_id: report_id }
+        }).done(function(data)
+        {
+            console.log(data);
+        });
+        if (status!="edited")
+        {
+            e.preventDefault();
+        }        
     });
 });
 </script>

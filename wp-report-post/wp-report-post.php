@@ -92,17 +92,26 @@ function wp_report_post_render_form()
 
 function wp_report_post_content($content)
 {
-    if (is_singular())
+    $types = get_option("wp_report_post_types", 0);
+    if ($types == 1 && !is_single())
     {
-        add_action("wp_footer", "wp_report_post_render_form");
-        wp_enqueue_script("wp-report-post-javascript", plugins_url("wp-report-post.js" , __FILE__ ), array("jquery"));
+        return $content;
     }
+    if ($types == 2 && !is_page())
+    {
+        return $content;
+    }
+    if ($types == 0 && !is_singular())
+    {
+        return $content;
+    }
+    add_action("wp_footer", "wp_report_post_render_form");
+    wp_enqueue_script("wp-report-post-javascript", plugins_url("wp-report-post.js" , __FILE__ ), array("jquery"));
     return $content;
 }
 
 function wp_report_post_admin_menu()
 {
-    // Menu
     add_menu_page("Reported Posts", "Reported Posts", "manage_options", "wp-report-post/wp-report-post-admin.php", "", plugins_url("wp-report-post/img/icon_warning.gif"));
     add_submenu_page("wp-report-post/wp-report-post-admin.php", "Report Post Settings", "Settings", "manage_options", "wp-report-post/wp-report-post-admin-settings.php");
 }
