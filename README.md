@@ -1,1 +1,1 @@
-Highly customizable Wordpress plugin to report inappropriate posts or pages
+Highly customizable Wordpress plugin to report inappropriate posts or pages !
