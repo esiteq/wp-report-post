@@ -127,6 +127,7 @@ function wp_report_post_register_options()
 
 function wp_report_post_activate()
 {
+    global $wpdb;
     $sql = "CREATE TABLE IF NOT EXISTS `wp_reported_posts` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
