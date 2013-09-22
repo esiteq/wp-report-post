@@ -3,7 +3,7 @@
 /**
  * 
  * Plugin Name: WP Report Post
- * Plugin URI: http://www.esiteq.com/wp-report-post/
+ * Plugin URI: http://www.esiteq.com/projects/wordpress-report-post-plugin/
  * Description: Adds functionality to report inappropriate post or page
  * Author: Alex Raven
  * Version: 1.0
@@ -125,6 +125,23 @@ function wp_report_post_register_options()
     add_option("wp_report_post_types", 0);
 }
 
+function wp_report_post_activate()
+{
+    $sql = "CREATE TABLE IF NOT EXISTS `wp_reported_posts` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(12) NOT NULL,
+  `user_name` varchar(100) NOT NULL,
+  `user_email` varchar(100) NOT NULL,
+  `message` text NOT NULL,
+  `post_id` int(12) NOT NULL,
+  `status` enum('new','confirmed','deleted','edited','unpublished') NOT NULL DEFAULT 'new',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_email` (`user_email`,`post_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;";
+    $wpdb->query($sql);
+}
+
 add_filter("the_content", "wp_report_post_content");
 wp_register_style("wp-report-post-css", plugins_url("wp-report-post.css", __FILE__));
 wp_enqueue_style("wp-report-post-css");
@@ -132,6 +149,7 @@ if (is_admin())
 {
     add_action("admin_menu", "wp_report_post_admin_menu");
     add_action("admin_init", "wp_report_post_register_options");
+    register_activation_hook(__FILE__, "wp_report_post_activate");
 }
 
 ?>
