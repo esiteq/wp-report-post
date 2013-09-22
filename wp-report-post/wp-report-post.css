@@ -1,0 +1,65 @@
+.wp-report-post-box {
+    margin-top:10px;
+    display:none;
+    background-color:#f7f5e7;
+    padding:16px !important;
+    border:2px solid #d4d0ba;
+    font-size:100%;
+}
+.wp-report-post-form {
+    padding:0;
+    margin:0;
+}
+.wp-report-post-cancel {
+    background:none !important;
+    background-color:#c0c0c0 !important;
+    border-bottom:2px solid #a0a0a0 !important;
+}
+.wp-report-post-label-left {
+    margin-right:20px;
+
+}
+.wp-report-post-form input[type=text] {
+    width:90%;
+}
+.wp-report-post-form textarea {
+    width:100%;
+}
+.wp-report-post-sign {
+    margin-bottom:3px;
+    width:12px;
+    height:12px;
+    display:inline-block;
+    background-image:url(img/icon_warning.gif);
+    vertical-align:middle;
+    margin-right:5px;
+}
+.wp-report-post-msg {
+    margin-bottom:10px;
+    color:red;
+    display:none;
+}
+.wp-report-post-form-left {
+    width:50%;
+    float:left;
+}
+.wp-report-post-row {
+    margin-bottom: 10px;
+}
+.clear-both {
+    clear:both;
+}
+.text-right {
+    text-align:right;
+}
+.wp-report-post-error {
+    background-color:#fff0f0;
+    border-color:red;
+}
+.wp-report-post-sent {
+    display:none;
+}
+.wp-report-post-sent p {
+    margin:0;
+    margin-bottom:16px;
+}
