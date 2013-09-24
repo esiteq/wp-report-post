@@ -6,8 +6,9 @@
  * Plugin URI: http://www.esiteq.com/projects/wordpress-report-post-plugin/
  * Description: Adds functionality to report inappropriate post or page
  * Author: Alex Raven
- * Version: 1.0
+ * Version: 0.1
  * Author URI: http://www.esiteq.com/
+ * License: GPL2
  * 
  */
 

@@ -6,7 +6,7 @@
  * @website http://www.esiteq.com/
  * @email bugrov at gmail.com
  * @created 21.9.2013
- * @version 1.0
+ * @version 0.1
  */
 
 function wp_report_post_form_template($post_id)
@@ -17,22 +17,28 @@ function wp_report_post_form_template($post_id)
     ob_start();
     if ($access==1 && !is_user_logged_in())
     {
+/*
+    Message for non-logged in users (if this feature is turned on in Settings)
+*/
 ?>
 <div class="wp-report-post-box">
     <div class="wp-report-post-sent" style="display: block;">
         <p><?php _e('You must be <a href="'. wp_login_url(). '">registered and logged in</a> to report inappropriate post.'); ?></p>
-        <input type="button" id="wp-report-post-dismiss" value="<?php _e("Dismiss"); ?>" />
+        <a class="wp-report-post-button" id="wp-report-post-dismiss"><?php _e("Dismiss"); ?></a>
     </div>
 </div>
 <?php
     }
     else
     {
+/*
+    Report form template starts here
+*/
 ?>
 <div class="wp-report-post-box">
     <div class="wp-report-post-sent">
         <p><?php _e("Your report has been successfully sent. We will review it soon and contact you back."); ?></p>
-        <input type="button" id="wp-report-post-dismiss" value="<?php _e("Dismiss"); ?>" />
+        <a class="wp-report-post-button" id="wp-report-post-dismiss"><?php _e("Dismiss"); ?></a>
     </div>
     <form method="post" id="wp-report-post-form" class="wp-report-post-form">
         <input type="hidden" name="wp_report_post_id" id="wp-report-post-id" value="<?php echo $post_id; ?>" />
@@ -54,15 +60,18 @@ function wp_report_post_form_template($post_id)
         </div>
         <div class="wp-report-post-msg"><?php _e("You have already reported this post before."); ?></div>
         <div class="wp-report-post-form-left">
-            <input name="wp_report_post_submit" type="button" id="wp-report-post-submit" value="Send Report" />
+            <a class="wp-report-post-button" id="wp-report-post-submit"><?php _e("Send Report"); ?></a>
         </div>
         <div class="wp-report-post-form-left text-right">
-            <input name="wp_report_post_cancel" type="button" id="wp-report-post-cancel" class="wp-report-post-cancel" value="Cancel" />
+            <a id="wp-report-post-cancel" class="wp-report-post-button"><?php _e("Cancel"); ?></a>
         </div>
         <div class="clear-both"></div>
     </form>
 </div>
 <?php
+/*
+    Report form template ends here
+*/
     }
     $output = ob_get_contents();
     ob_end_clean();
