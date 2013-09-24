@@ -11,3 +11,9 @@ Features:
 - Can be used in Automatic and Manual modes (to use in templates)
 - i18n support
 - Works for both Posts and Pages
+
+Changelog:
+
+2013-09-24
+- CSS buttons added
+- Fixed textarea width
