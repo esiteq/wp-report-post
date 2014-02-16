@@ -6,7 +6,7 @@
  * @website http://www.esiteq.com/
  * @email bugrov at gmail.com
  * @created 22.9.2013
- * @version 0.1
+ * @version 0.2
  */
 
 if (!defined("ABSPATH"))
@@ -19,7 +19,7 @@ $p = isset($_GET['p']) ? intval($_GET['p']) : 1; $orderby = "orderby={$_GET[orde
 
 if ($_GET['action']=="delete")
 {
-    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}reported_posts WHERE `id`=%d", $_GET['report']));
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}reported_posts WHERE `id`=%d LIMIT 1", $_GET['report']));
 }
 ?>
 <style type="text/css">
@@ -38,9 +38,12 @@ if ($_GET['action']=="delete")
 .column-status {
     text-transform: capitalize;
 }
+.status-unpublished .post-title {
+    text-decoration:line-through;
+}
 </style>
 <div class="wrap">
-<div id="icon-edit" class="icon32 icon32-posts-post"><br></div><h2><?php echo _e("Reported Posts"); ?></h2>
+<div id="icon-edit" class="icon32 icon32-posts-post"><br /></div><h2><?php echo _e("Reported Posts"); ?></h2>
 
 <form id="posts-filter" action="" method="get">
 
@@ -57,13 +60,12 @@ if ($_GET['action']=="delete")
 	<thead>
 	<tr>
 		<th scope="col" id="cb" class="manage-column column-cb check-column" style=""><label class="screen-reader-text" for="cb-select-all-1">Select All</label><input id="cb-select-all-1" type="checkbox" /></th>
-        <th scope="col" id="title" class="manage-column column-title sortable desc" style=""><a href="http://wp/wp-admin/edit.php?orderby=title&amp;order=asc"><span>Title</span><span class="sorting-indicator"></span></a></th>
+        <th scope="col" id="title" class="manage-column column-title sortable desc" style=""><a href="#?orderby=title&amp;order=asc"><span>Title</span><span class="sorting-indicator"></span></a></th>
         <th scope="col" id="author" class="manage-column column-author" style="">Reported by</th>
         <th scope="col" id="categories" class="manage-column column-categories" style="">Email</th>
         <th scope="col" id="tags" class="manage-column column-tags" style="">Reason</th>
-        <th scope="col" id="date" class="manage-column column-date sortable asc" style=""><a href="http://wp/wp-admin/edit.php?orderby=date&amp;order=desc"><span>Report date</span><span class="sorting-indicator"></span></a></th>
-        <th scope="col" id="status" class="manage-column column-date sortable asc" style=""><a href="http://wp/wp-admin/edit.php?orderby=date&amp;order=desc"><span>Status</span><span class="sorting-indicator"></span></a></th>
-
+        <th scope="col" id="date" class="manage-column column-date sortable asc" style=""><a href="#?orderby=date&amp;order=desc"><span>Report date</span><span class="sorting-indicator"></span></a></th>
+        <th scope="col" id="status" class="manage-column column-date sortable asc" style=""><a href="#?orderby=date&amp;order=desc"><span>Status</span><span class="sorting-indicator"></span></a></th>
 	</tr>
 	</thead>
 
@@ -75,6 +77,14 @@ $total = $wpdb->get_row($sql)->total;
 $pages = ceil($total / WP_POSTS_PER_PAGE);
 $sql = str_replace("COUNT(*) AS total", "*", $sql). " LIMIT {$start},". WP_POSTS_PER_PAGE;
 $posts = $wpdb->get_results($sql);
+if (count($posts) == 0)
+{
+?>
+        <tr class="type-post format-standard hentry alternate iedit status-posted">
+            <td colspan="7" class="post-title">No posts reported yet!</td>
+        </tr>
+<?php
+}
 foreach ($posts as $post)
 {
     $the_id = $post->ID;
@@ -121,7 +131,7 @@ if ($p<$pages) { $next = $p+1; } else { $next = $pages; }
 </form>
 
 <div id="ajax-response"></div>
-<br class="clear">
+<br class="clear" />
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function($)
@@ -130,7 +140,6 @@ jQuery(document).ready(function($)
     {
         var id = $(this).attr("report-id");
         var val = $(this).val();
-        alert(id+' '+val);        
     });
     $(".the-post-link").click(function(e)
     {
@@ -140,16 +149,10 @@ jQuery(document).ready(function($)
         $("#rep-"+report_id).removeClass("status-unpublished");
         $("#rep-"+report_id).removeClass("status-edited");
         $("#rep-"+report_id).addClass("status-"+status);
-        $.ajax(
+        $.post( "<?php echo admin_url( "admin-ajax.php" ); ?>", { status: status, report_id: report_id, action: "wp_report_post_admin_ajax" }, function(data)
         {
-            url: "<?php echo plugins_url("wp-report-post-admin-ajax.php", __FILE__); ?>",
-            type: "GET",
-            dataType: "json",
-            data: { status: status, report_id: report_id }
-        }).done(function(data)
-        {
-            console.log(data);
-        });
+            // done
+        }, "json" );
         if (status!="edited")
         {
             e.preventDefault();

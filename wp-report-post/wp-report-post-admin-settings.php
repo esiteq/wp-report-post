@@ -22,6 +22,7 @@ if ($_POST['action']=="update")
     update_option("wp_report_post_linktext", $_POST['linktext']);
     update_option("wp_report_post_icon", $_POST['icon']);
     update_option("wp_report_post_types", $_POST['types']);
+    update_option("wp_report_post_email", $_POST['notify_email']);
 }
 
 $placement = get_option("wp_report_post_placement", 0);
@@ -29,6 +30,7 @@ $access = get_option("wp_report_post_access", 0);
 $linktext = get_option("wp_report_post_linktext", "");
 $icon = get_option("wp_report_post_icon", 1);
 $types = get_option("wp_report_post_types", 0);
+$notify_email = get_option("wp_report_post_email", "");
 ?>
 
 <div class="wrap">
@@ -81,6 +83,12 @@ $types = get_option("wp_report_post_types", 0);
                         </fieldset>
                     </td>
                 </tr>
+                <!-- Notification Email -->
+                <tr valign="top">
+                    <th scope="row"><label for="notify_email">Notification Email</label></th>
+                    <td><input name="notify_email" type="text" id="notify_email" value="<?php echo $notify_email; ?>" class="regular-text" /></td>
+                </tr>
+
                 <tr>
                     <th scope="row" colspan="2"><p>The following settings are valid only for Automatic mode:</p></th>
                 </tr>

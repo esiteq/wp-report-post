@@ -5,6 +5,7 @@
     padding:16px !important;
     border:2px solid #d4d0ba;
     font-size:100%;
+    text-transform:none;
 }
 .wp-report-post-form {
     padding:0;

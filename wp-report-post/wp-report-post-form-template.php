@@ -41,6 +41,7 @@ function wp_report_post_form_template($post_id)
         <a class="wp-report-post-button" id="wp-report-post-dismiss"><?php _e("Dismiss"); ?></a>
     </div>
     <form method="post" id="wp-report-post-form" class="wp-report-post-form">
+        <input type="hidden" name="action" id="wp-report-post-action" value="wp_report_post_ajax" />
         <input type="hidden" name="wp_report_post_id" id="wp-report-post-id" value="<?php echo $post_id; ?>" />
         <input type="hidden" name="wp_report_post_user_id" id="wp-report-post-user-id" value="<?php echo $current_user->ID; ?>" />
         <div class="wp-report-post-row">
