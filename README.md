@@ -4,6 +4,9 @@ unpublish posts/pages, or just delete these reports. The plugin was designed to 
 In automatic mode, the link to report will be added to post’s meta box. In manual mode, you can place the link, button or
 image anywhere you want in templates.
 
+Important notice. If you are using custom Wordpress theme (and I have no doubt you are) with non-standard markup, automatic
+link may not appear. In this case, use Manual mode (check Admin/Settings for an example how to use it).
+
 Features:
 - Easy to use - you can simply activate the plugin and it will do the thing
 - Highly customizable, including Form Template and CSS
@@ -13,6 +16,12 @@ Features:
 - Works for both Posts and Pages
 
 Changelog:
+
+2014-02-16
+- Perverted AJAX calls were replaced in a normal Wordpress way
+- Added email notifications for reported posts
+- Compatible with Wordpress 3.8.x and new themes
+- Multiple minor bugfixes
 
 2013-09-24
 - CSS buttons added
