@@ -129,14 +129,15 @@ function wp_report_post_ajax()
                 if ( $notify_email )
                 {
                     $post = get_post( $post_id );
-                    $message = "Inappropriate Post Reported!
-                    Reporter: {$name} <{$email}>
-                    Reporter Id: {$user_id}
-                    Message: {$message}
-                    Post Id: {$post_id}
-                    Title: {$post->post_title}
-                    Link: {$post->guid}
-                    ";
+                    $message = 
+"Inappropriate Post Reported!
+Reporter: {$name} <{$email}>
+Reporter Id: {$user_id}
+Message: {$message}
+Post Id: {$post_id}
+Title: {$post->post_title}
+Link: {$post->guid}
+";
                     wp_mail( $notify_email, "WP Report Post Notification", $message );
                 }
                 $json['success'] = true;
@@ -217,7 +218,7 @@ function wp_report_post_activate()
   `status` enum('new','confirmed','deleted','edited','unpublished') NOT NULL DEFAULT 'new',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_email` (`user_email`,`post_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;";
+)";
     $wpdb->query( $sql );
 }
 

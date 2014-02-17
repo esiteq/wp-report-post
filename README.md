@@ -17,12 +17,15 @@ Features:
 
 Changelog:
 
-2014-02-16
+2014-02-17 v0.2.1
+- Removed engine & encoding from table creation. Default engine and encoding will be used.
+
+2014-02-16 v0.2
 - Perverted AJAX calls were replaced in a normal Wordpress way
 - Added email notifications for reported posts
 - Compatible with Wordpress 3.8.x and new themes
 - Multiple minor bugfixes
 
-2013-09-24
+2013-09-24 v0.1
 - CSS buttons added
 - Fixed textarea width
