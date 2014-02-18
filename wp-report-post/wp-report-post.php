@@ -6,7 +6,7 @@
  * Description: Adds functionality to report inappropriate post or page
  * Author: Alex Raven
  * Company: ESITEQ
- * Version: 0.2
+ * Version: 0.2.2
  * Created 22.9.2013
  * Author URI: http://www.esiteq.com/
  * License: GPL2
@@ -56,6 +56,8 @@ function wp_report_post_render_form()
         $(".wp-report-post-msg").css("display", "none");
         $.post( "<?php echo admin_url( "admin-ajax.php" ); ?>", $("#wp-report-post-form").serialize(), function(data)
         {
+            console.log(data.last_query);
+            console.log(data.last_error);
             if (data.error)
             {
                 $.each(data.errors, function(e)
@@ -118,9 +120,12 @@ function wp_report_post_ajax()
         $sql = $wpdb->prepare( "INSERT INTO {$wpdb->prefix}reported_posts SET `user_id`=%d, `user_name`=%s, `user_email`=%s, `message`=%s, `post_id`=%d", $user_id, $name,
             $email, $message, $post_id );
         $wpdb->query( $sql );
+        $json['last_query'] = $sql;
+        $json['last_error'] = $wpdb->last_error;
         if ( $wpdb->last_error == 0 )
         {
-            if ( $wpdb->insert_id == 0 )
+            // temporarily disabled feature
+            if ( false && $wpdb->insert_id == 0 )
             {
                 $json['already_reported'] = true;
             }

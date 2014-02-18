@@ -56,6 +56,14 @@ Initial release
 
 == Changelog ==
 
+= 0.2.2 =
+
+Fixed bug with duplicate reports
+
+= 0.2.1 =
+
+Removed engine and encoding from CREATE TABLE query - default values will be used (in case if InnoDB is not supported on your hosting)
+
 = 0.2 =
 
 * Perverted AJAX calls were replaced in a normal Wordpress way
