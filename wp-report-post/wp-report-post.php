@@ -6,7 +6,7 @@
  * Description: Adds functionality to report inappropriate post or page
  * Author: Alex Raven
  * Company: ESITEQ
- * Version: 0.2.2
+ * Version: 0.2.3
  * Created 22.9.2013
  * Author URI: http://www.esiteq.com/
  * License: GPL2
@@ -212,7 +212,7 @@ function wp_report_post_register_options()
 function wp_report_post_activate()
 {
     global $wpdb;
-    $sql = "CREATE TABLE IF NOT EXISTS `wp_reported_posts` (
+    $sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}reported_posts` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `dt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(12) NOT NULL,
