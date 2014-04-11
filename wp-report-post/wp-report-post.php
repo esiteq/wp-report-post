@@ -141,8 +141,7 @@ Reporter Id: {$user_id}
 Message: {$message}
 Post Id: {$post_id}
 Title: {$post->post_title}
-Link: {$post->guid}
-";
+Link: ". get_permalink($post_id);
                     wp_mail( $notify_email, "WP Report Post Notification", $message );
                 }
                 $json['success'] = true;

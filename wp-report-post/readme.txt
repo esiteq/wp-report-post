@@ -48,6 +48,9 @@ To see screenshots, visit http://www.esiteq.com/projects/wordpress-report-post-p
 
 == Upgrade Notice ==
 
+= 0.2.4 =
+Some bugfixes
+
 = 0.2 =
 Numerous bug and security fixes
 
@@ -55,6 +58,10 @@ Numerous bug and security fixes
 Initial release
 
 == Changelog ==
+
+= 0.2.4 =
+
+Fixed bug with incorrect link to attached image
 
 = 0.2.2 =
 

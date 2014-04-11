@@ -16,6 +16,8 @@ Features:
 - Works for both Posts and Pages
 
 Changelog:
+2014-04-11 v0.2.4
+- Fixed bug with incorrect link to attached image
 
 2014-02-17 v0.2.1
 - Removed engine & encoding from table creation. Default engine and encoding will be used.
